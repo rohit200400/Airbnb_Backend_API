@@ -18,8 +18,10 @@ public class Experience {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int rating;
+    private String feedback;
     @OneToMany(mappedBy = "experience")
     private List<ExperienceImage> images;
-    private String feedback;
+    @OneToOne(mappedBy = "experience")
+    private Booking booking;
 }
 

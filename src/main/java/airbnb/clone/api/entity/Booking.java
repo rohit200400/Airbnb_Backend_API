@@ -18,22 +18,18 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // FK will be created in this table
     @ManyToOne
     private Users user;
 
     @ManyToMany
-    @JoinTable(
-            name = "booking_rooms",
-            joinColumns = @JoinColumn(name = "bookingId"),
-            inverseJoinColumns = @JoinColumn(name = "roomId")
-    )
     private List<Rooms> rooms;
+
     private Date checkinTime;
     private Date checkoutTime;
     private Integer numberOfGuest;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
     private Experience experience;
 
 }

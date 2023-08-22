@@ -20,4 +20,6 @@ public class Amenities {
     private String name;
     private String description;
 
+    @ManyToMany
+    private List<Rooms> rooms;
 }

@@ -21,6 +21,6 @@ public class ExperienceImage {
     private String description;
     private String image;
 
-    @OneToOne
+    @ManyToOne
     private Experience experience;
 }

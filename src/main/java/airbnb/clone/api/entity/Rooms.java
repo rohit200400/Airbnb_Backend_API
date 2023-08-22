@@ -19,11 +19,12 @@ public class Rooms {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+    // foreign key will be created in this table
+    @OneToOne
     private Address address;
 
-    @OneToMany(mappedBy = "room")
+    // this is mapping with the FK in the roomImage table... FK won't be created in this table
+    @OneToMany(mappedBy = "room") // didn't cascade intentionally
     private List<RoomImage> images;
 
     private Double rate;
@@ -32,13 +33,10 @@ public class Rooms {
     private String propertyType;
     //house//flat//guest house//hotel
 
-    @ManyToMany
-    @JoinTable(
-            name = "rooms_amenities",
-            joinColumns = @JoinColumn(name = "roomId"),
-            inverseJoinColumns = @JoinColumn(name = "amenityId")
-    )
-    private List<Amenities> amenities; //    Wi-Fi, washing machine, AC, kitchen, etc
+    // when we use mappedBy it uses the mapping created by the other table
+    // in this case only one table will be created because of ManyToMany used in Amenities
+    @ManyToMany(mappedBy = "rooms", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Amenities> amenities; //Wi-Fi, washing machine, AC, kitchen, etc
 
     private Time checkinTime;
     private Time checkoutTime;

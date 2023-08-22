@@ -21,4 +21,8 @@ public class Address {
     private String state;
     private String Country;
     private String zipCode;
+
+    // this will use the FK in the rooms table
+    @OneToOne(mappedBy = "address",cascade = CascadeType.ALL)
+    private Rooms rooms;
 }
