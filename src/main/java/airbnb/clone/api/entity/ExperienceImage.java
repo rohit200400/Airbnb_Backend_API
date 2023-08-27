@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "ExperienceImage")
 public class ExperienceImage {
 
     @Id
@@ -22,5 +23,6 @@ public class ExperienceImage {
     private String image;
 
     @ManyToOne
+    @JoinColumn(name = "images")
     private Experience experience;
 }

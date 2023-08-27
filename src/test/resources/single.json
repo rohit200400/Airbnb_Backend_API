@@ -1,0 +1,12 @@
+{
+  "id": 1,
+  "firstName": "Widget",
+  "lastName": "Francis",
+  "dateOfBirth": "yyyy-MM-dd",
+  "email": "examle@gmail.com",
+  "contactNumber": "408-867-5309",
+  "emergencyContactNumber": "408-867-5309",
+  "password": "Pass@123",
+  "role": "user",
+  "imageGovernmentIDProof": "string"
+}

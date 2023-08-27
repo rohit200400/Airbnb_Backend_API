@@ -14,6 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "Rooms")
 public class Rooms {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +36,7 @@ public class Rooms {
 
     // when we use mappedBy it uses the mapping created by the other table
     // in this case only one table will be created because of ManyToMany used in Amenities
-    @ManyToMany(mappedBy = "rooms", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "rooms", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private List<Amenities> amenities; //Wi-Fi, washing machine, AC, kitchen, etc
 
     private Time checkinTime;

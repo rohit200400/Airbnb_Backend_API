@@ -12,6 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "Amenities")
 public class Amenities {
 
     @Id
@@ -21,5 +22,10 @@ public class Amenities {
     private String description;
 
     @ManyToMany
+    @JoinTable(
+            name = "RoomAmenities",
+            joinColumns = @JoinColumn(name = "amenities_id"),
+            inverseJoinColumns = @JoinColumn(name = "room_id")
+    )
     private List<Rooms> rooms;
 }
