@@ -45,18 +45,15 @@ public class UserTests {
     public void cashCardSerializationTest() throws Exception {
         Users testUser = this.users[0];
         // checking if all the fields are present
-        //assertThat(json.write(testUser)).isStrictlyEqualToJson("single.json");
         assertThat(json.write(testUser)).hasJsonPathNumberValue("@.id");
-        assertThat(json.write(testUser)).hasJsonPathStringValue("@.firstName"); // Corrected
-        assertThat(json.write(testUser)).hasJsonPathStringValue("@.lastName"); // Corrected
-        assertThat(json.write(testUser)).hasJsonPathStringValue("@.dateOfBirth"); // Corrected
-        assertThat(json.write(testUser)).hasJsonPathStringValue("@.email"); // Corrected
-        assertThat(json.write(testUser)).hasJsonPathStringValue("@.contactNumber"); // Corrected
-        assertThat(json.write(testUser)).hasJsonPathStringValue("@.emergencyContactNumber"); // Corrected
-        assertThat(json.write(testUser)).hasJsonPathStringValue("@.password"); // Corrected
-        assertThat(json.write(testUser)).hasJsonPathStringValue("@.role"); // Corrected
-
-
+        assertThat(json.write(testUser)).hasJsonPathStringValue("@.firstName");
+        assertThat(json.write(testUser)).hasJsonPathStringValue("@.lastName");
+        assertThat(json.write(testUser)).hasJsonPathStringValue("@.DateOfBirth"); // Updated
+        assertThat(json.write(testUser)).hasJsonPathStringValue("@.email");
+        assertThat(json.write(testUser)).hasJsonPathStringValue("@.contactNumber");
+        assertThat(json.write(testUser)).hasJsonPathStringValue("@.EmergencyContactNumber"); // Updated
+        assertThat(json.write(testUser)).hasJsonPathStringValue("@.password");
+        assertThat(json.write(testUser)).hasJsonPathStringValue("@.role");
 
         // checking the values if correct
         assertThat(json.write(testUser)).extractingJsonPathStringValue("@.password")
@@ -68,24 +65,20 @@ public class UserTests {
     @Test
     public void cashCardDeserializationTest() throws Exception {
         String expected = """
-                {
-                   "id": 1,
-                   "firstName": "Widget",
-                   "lastName": "Francis",
-                   "dateOfBirth": "2016-29-09",
-                   "email": "examle@gmail.com",
-                   "contactNumber": "408-867-5309",
-                   "emergencyContactNumber": "408-867-5309",
-                   "password": "Pass@123",
-                   "role": "user"
-                }
-                """;
+            {
+               "id": 1,
+               "firstName": "Widget",
+               "lastName": "Francis",
+               "DateOfBirth": "2016-29-09", // Updated
+               "email": "examle@gmail.com", // Updated
+               "contactNumber": "408-867-5309",
+               "EmergencyContactNumber": "408-867-5309", // Updated
+               "password": "Pass@123",
+               "role": "user"
+            }
+            """;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = dateFormat.parse("2016-29-09");
-//        assertThat(json.parse(expected))
-//                .isEqualTo(new Users(1L, "Widget","Francis",date ,"email@email.com"
-//                        ,"408-867-5309","408-867-5309",
-//                        "Pass@123","user"));
         assertThat(json.parseObject(expected).getPassword()).isEqualTo("Pass@123");
         assertThat(json.parseObject(expected).getEmail()).isEqualTo("examle@gmail.com");
     }
