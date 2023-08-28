@@ -86,8 +86,8 @@ public class UserTests {
 //                .isEqualTo(new Users(1L, "Widget","Francis",date ,"email@email.com"
 //                        ,"408-867-5309","408-867-5309",
 //                        "Pass@123","user"));
-        assertThat(json.parseObject(expected).getPassword().toString()).isEqualTo("Pass@123");
-        assertThat(json.parseObject(expected).getEmail().toString()).isEqualTo("examle@gmail.com");
+        assertThat(json.parseObject(expected).getPassword()).isEqualTo("Pass@123");
+        assertThat(json.parseObject(expected).getEmail()).isEqualTo("examle@gmail.com");
     }
 
 }
