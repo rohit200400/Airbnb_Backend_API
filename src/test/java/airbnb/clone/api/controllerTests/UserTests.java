@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,10 +34,10 @@ public class UserTests {
         users = new Users[]{
                 new Users(1L, "Widget", "Francis", date, "email@email.com",
                         "408-867-5309", "408-867-5309",
-                        "Pass@123", "user", "string"),
+                        "Pass@123", "user"),
                 new Users(2L, "Widget", "Francis", date, "email1@email.com",
                         "408-867-5309", "408-867-5309",
-                        "Pass@123", "user", "string")
+                        "Pass@123", "user")
         };
     }
 
@@ -56,7 +55,6 @@ public class UserTests {
         assertThat(json.write(testUser)).hasJsonPathStringValue("@.emergencyContactNumber"); // Corrected
         assertThat(json.write(testUser)).hasJsonPathStringValue("@.password"); // Corrected
         assertThat(json.write(testUser)).hasJsonPathStringValue("@.role"); // Corrected
-        assertThat(json.write(testUser)).hasJsonPathStringValue("@.imageGovernmentIDProof"); // Corrected
 
 
 
@@ -79,8 +77,7 @@ public class UserTests {
                    "contactNumber": "408-867-5309",
                    "emergencyContactNumber": "408-867-5309",
                    "password": "Pass@123",
-                   "role": "user",
-                   "imageGovernmentIDProof": "string"
+                   "role": "user"
                 }
                 """;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -88,28 +85,9 @@ public class UserTests {
 //        assertThat(json.parse(expected))
 //                .isEqualTo(new Users(1L, "Widget","Francis",date ,"email@email.com"
 //                        ,"408-867-5309","408-867-5309",
-//                        "Pass@123","user", "string"));
+//                        "Pass@123","user"));
         assertThat(json.parseObject(expected).getPassword().toString()).isEqualTo("Pass@123");
         assertThat(json.parseObject(expected).getEmail().toString()).isEqualTo("examle@gmail.com");
     }
 
-//    @Test
-//    @Disabled
-//    void cashCardListSerializationTest() throws IOException {
-//        assertThat(jsonList.write(cashCards)).isStrictlyEqualToJson("list.json");
-//    }
-//
-//    @Test
-//    @Disabled
-//    void cashCardListDeserializationTest() throws IOException {
-//        String expected = """
-//                [
-//                     {"id": 99, "amount": 123.45 , "owner": "sarah1"},
-//                     {"id": 100, "amount": 1.00 , "owner": "sarah1"},
-//                     {"id": 101, "amount": 150.00, "owner": "sarah1"}
-//
-//                ]
-//                """;
-//        assertThat(jsonList.parse(expected)).isEqualTo(cashCards);
-//    }
 }

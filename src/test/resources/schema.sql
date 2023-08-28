@@ -1,25 +1,29 @@
 CREATE TABLE Address (
     id INT PRIMARY KEY IDENTITY,
-    streetAddress VARCHAR(255),
+    street_address VARCHAR(255),
     city VARCHAR(40),
     state VARCHAR(40),
-    Country VARCHAR(40),
+    country VARCHAR(40),
     zipCode VARCHAR(10)
 );
 
 CREATE TABLE Users (
     id INT PRIMARY KEY IDENTITY,
-    firstName VARCHAR(50),
-    lastName VARCHAR(50),
-    DateOfBirth DATE,
-    email VARCHAR(255),
-    contactNumber VARCHAR(20),
-    EmergencyContactNumber VARCHAR(20),
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    date_of_birth DATE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    contact_number VARCHAR(20),
+    emergency_contact_number VARCHAR(20),
     password NVARCHAR(255),
-    role VARCHAR(50),
-    imageGovernmentIDProof VARBINARY (max)
+    role VARCHAR(50)
 );
 
+CREATE TABLE User_ID_Proof
+  (user_id INT NOT NULL,
+  image_governmentidproof VARBINARY (max)
+  CONSTRAINT FK_User_Idproof FOREIGN KEY (user_id) REFERENCES Users(id)
+  );
 
 CREATE TABLE RoomImage (
     id INT PRIMARY KEY IDENTITY,
@@ -55,11 +59,11 @@ CREATE TABLE Rooms (
     id INT PRIMARY KEY IDENTITY,
     address_id INT,
     rate FLOAT,
-    numberOfBedroom INT,
-    numberOfBathroom INT,
-    propertyType VARCHAR(255),
-    checkinTime TIME,
-    checkoutTime TIME,
+    number_of_bedroom INT,
+    number_of_bathroom INT,
+    property_type VARCHAR(255),
+    checkin_time TIME,
+    checkout_time TIME,
     capacity INT,
 );
 
@@ -76,9 +80,9 @@ CREATE TABLE RoomAmenities (
 CREATE TABLE Booking (
     id INT PRIMARY KEY IDENTITY,
     user_id INT,
-    checkinTime DATETIME,
-    checkoutTime DATETIME,
-    numberOfGuest INT,
+    checkin_time DATETIME,
+    checkout_time DATETIME,
+    number_of_guest INT,
     experience_id INT,
 );
 
