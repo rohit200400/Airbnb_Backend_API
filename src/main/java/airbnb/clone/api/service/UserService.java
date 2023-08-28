@@ -14,7 +14,6 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    @Autowired
     private final UsersRepo usersRepo;
 
     public UserService(UsersRepo usersRepo) {
@@ -62,12 +61,8 @@ public class UserService {
     public ResponseEntity<Users> findById(Long id) {
         ResponseEntity<Users> response;
         Optional<Users> user = usersRepo.findById(id);
-
-        if (!user.isEmpty()) {
-            response = new ResponseEntity<>(user.get(), HttpStatus.FOUND);
-        } else {
-            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        response = user.map(users -> new ResponseEntity<>(users, HttpStatus.FOUND))
+                        .orElseGet(()-> new ResponseEntity<>(HttpStatus.NOT_FOUND));
         return response;
     }
 

@@ -97,19 +97,4 @@ public class RoomsControllerTests {
         assertEquals(room, roomResponse.getBody());
     }
 
-//    @Test
-//    @Disabled
-//    public void deleteRoom() {
-//        // Given
-//        Rooms room = new Rooms();
-//        room.setId(1L);
-//
-//        when(roomsService.deleteRoom(1L)).thenReturn(void);
-//
-//        // When
-//        ResponseEntity<Void> roomResponse = roomsController.deleteRoom(1L);
-//
-//        // Then
-//        assertEquals(HttpStatus.NO_CONTENT, roomResponse.getStatusCode());
-//    }
 }

@@ -1,10 +1,13 @@
 package airbnb.clone.api.controllerTests;
 
+import airbnb.clone.api.controller.RoomsController;
 import airbnb.clone.api.controller.UserController;
 import airbnb.clone.api.entity.Users;
 import airbnb.clone.api.service.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,11 +23,15 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class UserControllerTests {
 
-    @Autowired
     private UserController userController;
 
-    @MockBean
+    @Mock
     private UserService userService;
+
+    @BeforeEach
+    public void setUp() {
+        userController = new UserController(userService);
+    }
 
     @Test
     public void testAddUser() {
@@ -33,9 +40,9 @@ public class UserControllerTests {
         user.setEmail("johndoe@gmail.com");
         user.setFirstName("John");
         user.setLastName("Doe");
+        when(userController.addUser(user)).thenReturn(new ResponseEntity<>(user, HttpStatus.CREATED));
 
         // When
-        when(userController.addUser(user)).thenReturn(new ResponseEntity<>(user, HttpStatus.CREATED));
         ResponseEntity<Users> response = userController.addUser(user);
 
         // Then
@@ -51,9 +58,9 @@ public class UserControllerTests {
         user.setEmail("johndoe@gmail.com");
         user.setFirstName("John");
         user.setLastName("Doe");
+        when(userController.updateUser(user)).thenReturn(new ResponseEntity<>(user, HttpStatus.FOUND));
 
         // When
-        when(userController.updateUser(user)).thenReturn(new ResponseEntity<>(user, HttpStatus.FOUND));
 
         ResponseEntity<Users> response = userController.updateUser(user);
 
@@ -67,14 +74,14 @@ public class UserControllerTests {
     public void testGetUserById() {
         // Given
         Long id = 1L;
-
-        // When
         Users user = new Users();
         user.setId(id);
         user.setEmail("johndoe@gmail.com");
         user.setFirstName("John");
         user.setLastName("Doe");
         when(userController.getUserById(1L)).thenReturn(new ResponseEntity<>(user, HttpStatus.FOUND));
+
+        // When
 
         ResponseEntity<Users> response = userController.getUserById(id);
 
@@ -88,9 +95,9 @@ public class UserControllerTests {
     public void testGetUsers() {
         // Given
         List<Users> users = Arrays.asList(new Users(), new Users());
+        when(userController.getAllUsers()).thenReturn(new ResponseEntity<>(users, HttpStatus.FOUND));
 
         // When
-        when(userController.getAllUsers()).thenReturn(new ResponseEntity<>(users, HttpStatus.FOUND));
         ResponseEntity<List<Users>> response = userController.getAllUsers();
 
         // Then
@@ -99,17 +106,7 @@ public class UserControllerTests {
         Assertions.assertEquals(users.size(), response.getBody().size());
     }
 
-//    @Test
-//    public void testDeleteUserById() {
-//        // Given
-//        String email = "johndoe@gmail.com";
-//
-//        // When
-//        ResponseEntity<Void> response = userController.deleteUserById(email);
-//
-//        // Then
-//        Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
-//    }
+
 
     @Test
     public void testAddUserWithExistingEmail() {
@@ -118,9 +115,9 @@ public class UserControllerTests {
         user.setEmail("johndoe@gmail.com");
         user.setFirstName("John");
         user.setLastName("Doe");
+        when(userController.addUser(user)).thenReturn(new ResponseEntity<>(user, HttpStatus.CONFLICT));
 
         // When
-        when(userController.addUser(user)).thenReturn(new ResponseEntity<>(user, HttpStatus.CONFLICT));
         ResponseEntity<Users> response = userController.addUser(user);
 
         // Then
@@ -134,9 +131,9 @@ public class UserControllerTests {
         user.setEmail("non-existent-user@gmail.com");
         user.setFirstName("John");
         user.setLastName("Doe");
+        when(userController.updateUser(user)).thenReturn(new ResponseEntity<>(user, HttpStatus.NOT_FOUND));
 
         // When
-        when(userController.updateUser(user)).thenReturn(new ResponseEntity<>(user, HttpStatus.NOT_FOUND));
 
         ResponseEntity<Users> response = userController.updateUser(user);
 
