@@ -44,7 +44,6 @@ public class UserService {
      * @param user The user to add.
      * @return A response entity with the status code 201 (Created) and the added user if the user was added successfully, or a response entity with the status code 409 (Conflict) if the user already exists.
      */
-    @Transactional
     public ResponseEntity<Users> add(Users user) {
         ResponseEntity<Users> existingUser = findByEmail(user.getEmail());
         if (existingUser.getStatusCode() == HttpStatus.NOT_FOUND) {
