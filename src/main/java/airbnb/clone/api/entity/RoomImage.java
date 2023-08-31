@@ -26,6 +26,5 @@ public class RoomImage {
 
     // FK will be created in this table
     @ManyToOne
-    @JoinColumn(name = "room_id") // name of the column
-    private Rooms room;
+    private Rooms rooms;
 }

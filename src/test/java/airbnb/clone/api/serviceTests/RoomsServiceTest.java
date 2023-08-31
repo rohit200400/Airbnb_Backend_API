@@ -1,8 +1,12 @@
 package airbnb.clone.api.serviceTests;
 
 import airbnb.clone.api.entity.Rooms;
+import airbnb.clone.api.repository.AddressRepository;
+import airbnb.clone.api.repository.AmenitiesRepository;
+import airbnb.clone.api.repository.RoomImageRepo;
 import airbnb.clone.api.repository.RoomsRepo;
 import airbnb.clone.api.service.RoomsService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -21,12 +25,19 @@ public class RoomsServiceTest {
 
     @Mock
     private RoomsRepo roomsRepository;
+    @Mock
+    private AddressRepository addressRepository;
 
+    @Mock
     private RoomsService roomsService;
+    @Mock
+    private RoomImageRepo roomImageRepo;
+    @Mock
+    private AmenitiesRepository amenitiesRepository;
 
     @BeforeEach
     public void setUp() {
-        roomsService = new RoomsService(roomsRepository);
+        roomsService = new RoomsService(roomsRepository, addressRepository, roomImageRepo, amenitiesRepository);
     }
 
     @Test
@@ -78,6 +89,20 @@ public class RoomsServiceTest {
     }
 
     @Test
+    public void createExistingRoom() {
+        // Given
+        Rooms room = new Rooms();
+        when(roomsRepository.findById(room.getId())).thenReturn(Optional.of(room));
+
+
+        // When
+        Rooms savedRoom = roomsService.createRoom(room);
+
+        // Then
+        assertNull(savedRoom);
+    }
+
+    @Test
     public void updateRoom() {
         // Given
         Rooms room = new Rooms();
@@ -94,15 +119,42 @@ public class RoomsServiceTest {
     }
 
     @Test
-    public void deleteRoom() {
+    public void updateNonExistingRoom() {
         // Given
         Rooms room = new Rooms();
         room.setId(1L);
 
+        when(roomsRepository.findById(1L)).thenReturn(Optional.empty());
+
         // When
-        roomsService.deleteRoom(1L);
+        Rooms updatedRoom = roomsService.updateRoom(1L, room);
 
         // Then
-        verify(roomsRepository).deleteById(1L);
+        assertNull(updatedRoom);
+    }
+    @Test
+    public void deleteValidRoom() {
+        // Given
+        Rooms room = new Rooms();
+        room.setId(1L);
+        when(roomsRepository.findById(1L)).thenReturn(Optional.of(room));
+        // When
+        boolean isDeleted = roomsService.deleteRoom(1L);
+
+        // Then
+        Assertions.assertTrue(isDeleted);
+    }
+
+    @Test
+    public void deleteInvalidRoom() {
+        // Given
+        Rooms room = new Rooms();
+        room.setId(1L);
+        when(roomsRepository.findById(1L)).thenReturn(Optional.empty());
+        // When
+        boolean isDeleted = roomsService.deleteRoom(1L);
+
+        // Then
+        Assertions.assertFalse(isDeleted);
     }
 }

@@ -21,11 +21,6 @@ public class Amenities {
     private String name;
     private String description;
 
-    @ManyToMany
-    @JoinTable(
-            name = "RoomAmenities",
-            joinColumns = @JoinColumn(name = "amenities_id"),
-            inverseJoinColumns = @JoinColumn(name = "room_id")
-    )
+    @ManyToMany(mappedBy = "amenities")
     private List<Rooms> rooms;
 }

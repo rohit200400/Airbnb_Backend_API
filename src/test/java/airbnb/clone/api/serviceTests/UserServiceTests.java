@@ -1,29 +1,20 @@
 package airbnb.clone.api.serviceTests;
 
 import airbnb.clone.api.entity.Users;
-import airbnb.clone.api.repository.RoomsRepo;
 import airbnb.clone.api.repository.UsersRepo;
-import airbnb.clone.api.service.RoomsService;
 import airbnb.clone.api.service.UserService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
-import java.util.Optional;
-
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTests {
 

@@ -1,28 +1,26 @@
 package airbnb.clone.api.controllerTests;
 
-import airbnb.clone.api.controller.RoomsController;
 import airbnb.clone.api.controller.UserController;
 import airbnb.clone.api.entity.Users;
 import airbnb.clone.api.service.UserService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class UserControllerTests {
-
+    @Autowired
     private UserController userController;
 
     @Mock
@@ -92,7 +90,7 @@ public class UserControllerTests {
     }
 
     @Test
-    public void testGetUsers() {
+    public void testGetAllUsers() {
         // Given
         List<Users> users = Arrays.asList(new Users(), new Users());
         when(userController.getAllUsers()).thenReturn(new ResponseEntity<>(users, HttpStatus.FOUND));
@@ -105,8 +103,6 @@ public class UserControllerTests {
         Assertions.assertNotNull(response.getBody());
         Assertions.assertEquals(users.size(), response.getBody().size());
     }
-
-
 
     @Test
     public void testAddUserWithExistingEmail() {

@@ -3,12 +3,13 @@ package airbnb.clone.api.controller;
 
 import airbnb.clone.api.entity.Rooms;
 import airbnb.clone.api.service.RoomsService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+
 @RestController
 @RequestMapping("/rooms")
 public class RoomsController {
@@ -31,10 +32,10 @@ public class RoomsController {
         return ResponseEntity.ok(room);
     }
 
-    @PostMapping
+    @PostMapping("/createRoom")
     public ResponseEntity<Rooms> createRoom(@RequestBody Rooms room) throws URISyntaxException {
         Rooms newRoom = roomsService.createRoom(room);
-        return ResponseEntity.created(new URI("/rooms/" + newRoom.getId())).body(newRoom);
+        return new ResponseEntity<>(newRoom, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -45,8 +46,12 @@ public class RoomsController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRoom(@PathVariable Long id) {
-        roomsService.deleteRoom(id);
-        return ResponseEntity.noContent().build();
+        if(roomsService.deleteRoom(id)){
+            return ResponseEntity.noContent().build();
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
 
